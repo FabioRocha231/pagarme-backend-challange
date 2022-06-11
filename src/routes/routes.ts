@@ -1,9 +1,10 @@
 import { Request, Response, Router } from "express";
+import { ValidateCardNumber } from "../validators/creditCardValidator";
 import { TransactionValidator } from "../validators/transactionValidator";
 
 
 const routes = Router();
-
-routes.post("/transaction", new TransactionValidator().isValid)
+// new TransactionValidator().isValid
+routes.post("/transaction", new ValidateCardNumber().validate)
 
 export { routes };

@@ -26,7 +26,12 @@ export class TransactionValidator implements Validator {
       );
     }
 
-    return res.status(200).send({ cardOwner });
+    if (isNaN(value) || !value)
+      return res.status(406).send({ message: "value must be a number" });
+
+    if (!(payMethod === "debit_card" || payMethod === "credit_card"))
+      return res.status(405).send({ message: "pay method no allowed" });
+    return res.status(200).send({ cardOwner, value, payMethod });
   }
 
   static validateCardOwner(name: string): boolean {
