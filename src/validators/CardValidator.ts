@@ -1,14 +1,18 @@
 import { NextFunction, Request, Response } from "express";
 
 export class ValidateCardNumber {
-  public validate(req: Request, res: Response, next: NextFunction) {
+  public validate(req: Request, res: Response, next: NextFunction): Response | void {
     const { cardNumber } = req.body;
     if (!cardNumber)
       return res.status(406).send({ message: "missing card number" });
     const { message, success, type } =
-      ValidateCardNumber.checkCreditCard(cardNumber);
+      ValidateCardNumber.isAValidCard(cardNumber);
     if (!success) return res.status(400).send({ message });
-    return res.status(200).send({ message , success, type})
+    req.body.cardValidation = {
+      isValid: success,
+      flag: type
+    }
+    next()
   }
 
   static validateCardNumber(cardNumber: string) {
@@ -17,7 +21,7 @@ export class ValidateCardNumber {
     return ValidateCardNumber.luhnCheck(cardNumber);
   }
 
-  static checkCreditCard(cardNumber: string) {
+  static isAValidCard(cardNumber: string) {
     //Error messages
     const ccErrors = [];
     ccErrors[0] = "Unknown card type";

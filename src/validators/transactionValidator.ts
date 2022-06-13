@@ -16,6 +16,7 @@ export class TransactionValidator implements Validator {
       cardOwner,
       cardValidity,
       cvv,
+      cardValidation
     } = req.body;
     if (!TransactionValidator.validateCardOwner(cardOwner)) {
       return TransactionValidator.validateOwnerError(
@@ -31,7 +32,7 @@ export class TransactionValidator implements Validator {
 
     if (!(payMethod === "debit_card" || payMethod === "credit_card"))
       return res.status(405).send({ message: "pay method no allowed" });
-    return res.status(200).send({ cardOwner, value, payMethod });
+    return res.status(200).send({ cardOwner, value, payMethod, cardValidation });
   }
 
   static validateCardOwner(name: string): boolean {
