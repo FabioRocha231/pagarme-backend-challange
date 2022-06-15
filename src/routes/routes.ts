@@ -9,11 +9,11 @@ import { CardValidityValidator } from "../validators/cardValidityValidator";
 const routes = Router();
 routes.post(
   "/transaction",
+  new PayMethodValidator().isValid,
   new ValidateCardNumber().validate,
   new CardValidityValidator().isValid,
-  new TransactionValueValidator().isValid,
-  new PayMethodValidator().isValid,
   new CvvValidator().isValid,
+  new TransactionValueValidator().isValid,
   new TransactionValidator().isValid
 );
 
