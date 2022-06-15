@@ -5,9 +5,12 @@ import bodyParser from "body-parser";
 const processId = process.pid;
 
 const app = express();
-app.use(bodyParser.json())
-app.use(routes)
+app.use(bodyParser.json());
+app.use(routes);
 
+const server = app.listen(3000, () => {
+  console.log(`Server is Running on port ${3000}, pid: ${processId}`);
+});
 // capture unhandled errors
 //if dont have this uncaughtException the system broke
 process.on("uncaughtException", (error, origin) => {
@@ -26,12 +29,6 @@ process.on("SIGTERM", gracefulShutdown("SIGTERM"));
 
 process.on("exit", (code) => {
   console.log("exit signal received", code);
-});
-
-const server = app.listen(3000, () => {
-  console.log(
-    `Server is Running on port ${3000}, pid: ${processId}`
-  );
 });
 
 setInterval(

@@ -1,7 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 
 export class ValidateCardNumber {
-  public validate(req: Request, res: Response, next: NextFunction): Response | void {
+  public validate(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Response | void {
     const { cardNumber } = req.body;
     if (!cardNumber)
       return res.status(406).send({ message: "missing card number" });
@@ -10,9 +14,15 @@ export class ValidateCardNumber {
     if (!success) return res.status(400).send({ message });
     req.body.cardValidation = {
       isValid: success,
-      flag: type
-    }
-    next()
+      flag: type,
+      cardNumber: ValidateCardNumber.convertCardNumber(cardNumber)
+    };
+    next();
+  }
+
+  static convertCardNumber(cardNumber: string) {
+    const str = cardNumber.replace(/.(?=.{4})/g, 'x');
+    return str
   }
 
   static validateCardNumber(cardNumber: string) {
