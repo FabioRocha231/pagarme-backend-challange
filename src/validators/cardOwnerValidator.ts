@@ -26,7 +26,7 @@ export class TransactionValidator implements Validator {
         res
       );
     }
-    return res.status(200).send({ cardOwner, value, payMethod, cardValidation });
+    return res.status(200).send({ cardOwner, value, payMethod, cardValidation, cvv });
   }
 
   static validateCardOwner(name: string): boolean {
