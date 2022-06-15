@@ -10,7 +10,7 @@ const routes = Router();
 routes.post(
   "/transaction",
   new PayMethodValidator().isValid,
-  new ValidateCardNumber().validate,
+  new ValidateCardNumber().validate, 
   new CardValidityValidator().isValid,
   new CvvValidator().isValid,
   new TransactionValueValidator().isValid,

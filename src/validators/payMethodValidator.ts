@@ -10,7 +10,7 @@ export class PayMethodValidator implements Validator {
     const { payMethod } = req.body;
     if (!(payMethod === "debit_card" || payMethod === "credit_card"))
       return res.status(405).send({ message: "pay method not allowed" });
-    
+
     next();
   }
 }

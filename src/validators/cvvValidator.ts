@@ -10,7 +10,9 @@ export class CvvValidator implements Validator {
     const { cvv } = req.body;
 
     if (!cvv || isNaN(cvv))
-      return res.status(406).send({ message: "cvv required to confirm you transaction" });
+      return res
+        .status(406)
+        .send({ message: "cvv required to confirm you transaction" });
 
     next();
   }

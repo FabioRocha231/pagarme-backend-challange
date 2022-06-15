@@ -15,14 +15,14 @@ export class ValidateCardNumber {
     req.body.cardValidation = {
       isValid: success,
       flag: type,
-      cardNumber: ValidateCardNumber.convertCardNumber(cardNumber)
+      cardNumber: ValidateCardNumber.convertCardNumber(cardNumber),
     };
     next();
   }
 
   static convertCardNumber(cardNumber: string) {
-    const str = cardNumber.replace(/.(?=.{4})/g, 'x');
-    return str
+    const str = cardNumber.replace(/.(?=.{4})/g, "x");
+    return str;
   }
 
   static validateCardNumber(cardNumber: string) {

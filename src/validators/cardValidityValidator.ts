@@ -13,9 +13,9 @@ export class CardValidityValidator implements Validator {
       return res.status(406).send({ message: "expiration date is required" });
     today = new Date();
     const date = [...cardValidity.split("/")];
-    const month = +date[0]
-    const year = +date[1]
-    const expiryDate = new Date(year, month)
+    const month = +date[0];
+    const year = +date[1];
+    const expiryDate = new Date(year, month);
 
     // console.log(someday)
     if (expiryDate < today)
