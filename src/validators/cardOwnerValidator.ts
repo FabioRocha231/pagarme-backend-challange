@@ -7,7 +7,7 @@ export class TransactionValidator implements Validator {
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<Error | Response> {
+  ): Promise<Error | Response | void> {
     const {
       value,
       description,
@@ -26,12 +26,6 @@ export class TransactionValidator implements Validator {
         res
       );
     }
-
-    if (isNaN(value) || !value)
-      return res.status(406).send({ message: "value must be a number" });
-
-    if (!(payMethod === "debit_card" || payMethod === "credit_card"))
-      return res.status(405).send({ message: "pay method no allowed" });
     return res.status(200).send({ cardOwner, value, payMethod, cardValidation });
   }
 
