@@ -8,7 +8,7 @@ export class CardValidityValidator implements Validator {
     next: NextFunction
   ): Promise<Error | Response | void> {
     let today;
-    const { cardValidity } = req.body;
+    const { cardValidity, cardValidation } = req.body;
     if (!cardValidity)
       return res.status(406).send({ message: "expiration date is required" });
     today = new Date();
@@ -23,7 +23,7 @@ export class CardValidityValidator implements Validator {
         message:
           "The expiry date is before today's date. Please select a valid expiry date",
       });
-
+    cardValidation.validity = cardValidity;
     next();
   }
 }
