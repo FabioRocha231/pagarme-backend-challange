@@ -8,16 +8,7 @@ export class TransactionValidator implements Validator {
     res: Response,
     next: NextFunction
   ): Promise<Error | Response | void> {
-    const {
-      value,
-      description,
-      payMethod,
-      cardNumber,
-      cardOwner,
-      cardValidity,
-      cvv,
-      cardValidation
-    } = req.body;
+    const { cardOwner } = req.body;
     if (!TransactionValidator.validateCardOwner(cardOwner)) {
       return TransactionValidator.validateOwnerError(
         406,
@@ -26,7 +17,7 @@ export class TransactionValidator implements Validator {
         res
       );
     }
-    return res.status(200).send({ cardOwner, value, payMethod, cardValidation, cvv });
+    next();
   }
 
   static validateCardOwner(name: string): boolean {
