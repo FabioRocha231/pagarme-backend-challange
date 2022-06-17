@@ -1,34 +1,35 @@
 import { Request, Response } from "express";
+import { ErrorHandler } from "../errors/errorHandler";
+import { UserController } from "./userController";
 
 export class TransactionController {
-  debitOrCredit(req: Request, res: Response) {
+  async debitOrCredit(req: Request, res: Response) {
+    const { errorHandler } = new ErrorHandler();
     const { value, description, payMethod, cardOwner, cvv, cardValidation } =
       req.body;
     let status;
     if (payMethod === "debit_card") {
       status = "paid";
-      return res.status(200).send({
-        cardOwner,
-        value,
-        payMethod,
-        cardValidation,
-        cvv,
-        description,
-        status,
-      });
+      const data = {
+        name: cardOwner,
+      };
+      const [error, result] = await errorHandler(
+        new UserController().create(data)
+      );
+      if (error) res.status(500).send(error.message);
+      return res.status(201).send(result);
     }
 
     if (payMethod === "credit_card") {
-      status = "waiting_funds"
-      return res.status(200).send({
-        cardOwner,
-        value,
-        payMethod,
-        cardValidation,
-        cvv,
-        description,
-        status
-      });
+      status = "waiting_funds";
+      const data = {
+        name: cardOwner,
+      };
+      const [error, result] = await errorHandler(
+        new UserController().create(data)
+      );
+      if (error) res.status(500).send(error.message);
+      return res.status(201).send(result);
     }
   }
 }
