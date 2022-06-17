@@ -10,11 +10,10 @@ export class TransactionController {
     let status;
     if (payMethod === "debit_card") {
       status = "paid";
-      const data = {
-        name: cardOwner,
-      };
       const [error, result] = await errorHandler(
-        new UserController().create(data)
+        new UserController().create({
+          name: cardOwner
+        })
       );
       if (error) res.status(500).send(error.message);
       return res.status(201).send(result);
@@ -22,11 +21,10 @@ export class TransactionController {
 
     if (payMethod === "credit_card") {
       status = "waiting_funds";
-      const data = {
-        name: cardOwner,
-      };
       const [error, result] = await errorHandler(
-        new UserController().create(data)
+        new UserController().create({
+          name: cardOwner
+        })
       );
       if (error) res.status(500).send(error.message);
       return res.status(201).send(result);
